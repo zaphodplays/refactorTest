@@ -15,6 +15,6 @@ class User
     public:
         User(string name);
         uint32_t getUserID();
-        string getName();
+        const string& getName();
 
 };

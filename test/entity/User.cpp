@@ -8,7 +8,7 @@ User::User(string name)
     this->name = name;
 }
 
-string User::getName()
+const string& User::getName()
 {
     return name;
 }

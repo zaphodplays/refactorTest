@@ -12,12 +12,12 @@ Message::Message(const string sender, const string receiver, const string msg)
     
 }
 
-const string Message::getSenderName()
+const string& Message::getSenderName()
 {
     return sname;
 }
 
-const string Message::getReceiverName()
+const string& Message::getReceiverName()
 {
     return rname;
 }
@@ -32,7 +32,7 @@ time_t Message::getTimestamp()
     return timestamp;
 }
 
-const string Message::getContent()
+const string& Message::getContent()
 {
     return content;
 }

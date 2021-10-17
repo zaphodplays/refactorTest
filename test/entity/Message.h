@@ -16,17 +16,17 @@ class Message {
         /**
          * get sender name
          */
-        const string getSenderName();
+        const string& getSenderName();
 
         /**
          * get receiver name
          */
-        const string getReceiverName();
+        const string& getReceiverName();
 
         /**
          * get content
          */
-        const string getContent();
+        const string& getContent();
 
         /**
          * get the message id
