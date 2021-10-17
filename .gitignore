@@ -1,0 +1,4 @@
+
+*.plist
+test/bin/king_test.dSYM/Contents/Resources/DWARF/king_test
+test/bin/king_test
