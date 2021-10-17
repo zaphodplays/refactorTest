@@ -38,6 +38,10 @@ class Menu
          */
         bool processInput();
 
+        /**
+         * builds and stores the menu string using descriptions from different menu commands 
+         * for menu display
+         */
         void buildMenuString();
 
        
@@ -49,5 +53,8 @@ class Menu
          */
         map<string, Command*> commandsMap;
 
+        /**
+         * this stores the menu string constructed at initialization from different commands
+         */
         string menuString;
 };
