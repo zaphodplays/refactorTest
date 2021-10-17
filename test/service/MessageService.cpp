@@ -1,79 +1,79 @@
-#include "AMessageService.h"
+#include "MessageService.h"
 
-Result* AMessageService::MSG_SENT_SUCCESS = new Result(true, "message successfully sent");
+Result* MessageService::MSG_SENT_SUCCESS = new Result(true, "message successfully sent");
 
-AMessageService::~AMessageService()
+MessageService::~MessageService()
 {
-    senderAMessagesMap.clear();
-    receiverAMessagesMap.clear();
+    senderMessagesMap.clear();
+    receiverMessagesMap.clear();
 }
 
-const Result& AMessageService::createAMessage(string senderName, string receiverName, const string content)
+const Result& MessageService::createMessage(string senderName, string receiverName, const string content)
 {
-    shared_ptr<AMessage> msg = make_shared<AMessage>(senderName, receiverName, content);
-    uint32_t msgID = msg->getAMessageID();
+    shared_ptr<Message> msg = make_shared<Message>(senderName, receiverName, content);
+    uint32_t msgID = msg->getMessageID();
     uint32_t senderID = UserService::getInstance().getUserByName(senderName)->getUserID();
     uint32_t receiverID = UserService::getInstance().getUserByName(receiverName)->getUserID();
     time_t timestamp = msg->getTimestamp();
     shared_ptr<MsgMetadata> metadata = make_shared<MsgMetadata>(msgID, senderID, receiverID, timestamp);
     
-    if(senderAMessagesMap.find(senderID) != senderAMessagesMap.end())
+    if(senderMessagesMap.find(senderID) != senderMessagesMap.end())
     {
-        senderAMessagesMap.find(senderID)->second.insert(metadata);    
+        senderMessagesMap.find(senderID)->second.insert(metadata);    
     }
     else {
         SET_METADATA_BY_RECEIVER_AND_TIME rset;
         rset.insert(metadata);
-        senderAMessagesMap[senderID] = rset;    
+        senderMessagesMap[senderID] = rset;    
         
     }
     
 
-    if(receiverAMessagesMap.find(receiverName) != receiverAMessagesMap.end())
+    if(receiverMessagesMap.find(receiverName) != receiverMessagesMap.end())
     {
-        receiverAMessagesMap.find(receiverName)->second->insert(msg);    
+        receiverMessagesMap.find(receiverName)->second->insert(msg);    
     }
     else {
         shared_ptr<SET_AMESSAGES_BY_SENDER_AND_TIME> sset = make_shared<SET_AMESSAGES_BY_SENDER_AND_TIME>();
         sset->insert(msg);
-        receiverAMessagesMap[receiverName] = sset;    
+        receiverMessagesMap[receiverName] = sset;    
         
     }
 
     return *MSG_SENT_SUCCESS;
 }
 
-shared_ptr<AMessageService::SET_AMESSAGES_BY_SENDER_AND_TIME> AMessageService::getMessagesForReceiver(string name)
+shared_ptr<MessageService::SET_AMESSAGES_BY_SENDER_AND_TIME> MessageService::getMessagesForReceiver(string name)
 {
     
-    if(receiverAMessagesMap.find(name) == receiverAMessagesMap.end())
+    if(receiverMessagesMap.find(name) == receiverMessagesMap.end())
     {
            
         shared_ptr<SET_AMESSAGES_BY_SENDER_AND_TIME> sset = make_shared<SET_AMESSAGES_BY_SENDER_AND_TIME>();
-        receiverAMessagesMap[name] = sset;    
+        receiverMessagesMap[name] = sset;    
         
     }
-    return receiverAMessagesMap.find(name)->second;
+    return receiverMessagesMap.find(name)->second;
 }
         
 
 
-map<uint32_t, AMessageService::SET_METADATA_BY_RECEIVER_AND_TIME> &AMessageService::getAllMessagesGroupedBySenderID()
+map<uint32_t, MessageService::SET_METADATA_BY_RECEIVER_AND_TIME> &MessageService::getAllMessagesGroupedBySenderID()
 {
-   return senderAMessagesMap;
+   return senderMessagesMap;
 }
 
-void AMessageService::runTests()
+void MessageService::runTests()
 {
     std::cout<<std::endl<<"*************STARTING MESSAGE TESTS***********************"<<std::endl;
-    UserService::getInstance().clearTestUsers();
+    
     testSetup();
     testGetMessagesForReceiver();
     clearTestSetup();
     std::cout<<"*************FINISHED MESSAGE TESTS***********************"<<std::endl;
 }
 
-void AMessageService::testSetup()
+void MessageService::testSetup()
 {
     std::cout<<"creating message test setup"<<std::endl;
     string prefix = "user";
@@ -97,7 +97,7 @@ void AMessageService::testSetup()
             string receiver = names[k];
             string text = "hello" + std::to_string(j*k);
            
-            Result result = createAMessage(sender, receiver, text);
+            Result result = createMessage(sender, receiver, text);
             assert(result.getMessage() == MSG_SENT_SUCCESS->getMessage());
             //std::cout<<"sent test message"<<std::endl;
         }
@@ -107,7 +107,7 @@ void AMessageService::testSetup()
     
 }
 
-void AMessageService::testGetMessagesForReceiver()
+void MessageService::testGetMessagesForReceiver()
 {
     std::cout<<"testGetMessagesForReceiver"<<std::endl;
     string prefix = "user";
@@ -139,11 +139,11 @@ void AMessageService::testGetMessagesForReceiver()
     std::cout<<"finished testing GetMessagesForReceiver"<<std::endl;
 }
 
-void AMessageService::clearTestSetup()
+void MessageService::clearTestSetup()
 {
     
-    senderAMessagesMap.clear();
-    receiverAMessagesMap.clear();
+    senderMessagesMap.clear();
+    receiverMessagesMap.clear();
     std::cout<<"cleared test messages"<<std::endl;
     UserService::getInstance().clearTestUsers(); 
     std::cout<<"cleared test setup"<<std::endl;

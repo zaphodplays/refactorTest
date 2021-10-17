@@ -71,7 +71,7 @@ bool Menu::processInput()
 void runTests()
 {
     UserService::getInstance().runTests();
-    AMessageService::getInstance().runTests();
+    MessageService::getInstance().runTests();
     std::string str;
     UserInputUtil::handleUserInput("\nEnter any key and press return to continue to main menu.....", str);
 }
@@ -79,7 +79,7 @@ void runTests()
 int main()
 {
     //uncomment below method to run tests
-    //runTests();
+    runTests();
     Menu menu;
     menu.execute();
 }

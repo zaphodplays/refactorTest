@@ -8,10 +8,10 @@ using std::string;
  * This class represents a message entity that is sent from a user to another user.
  * 
  */
-class AMessage {
+class Message {
 
     public:
-        AMessage(const string sender, const string receiver, const string msg);
+        Message(const string sender, const string receiver, const string msg);
 
         /**
          * get sender name
@@ -31,7 +31,7 @@ class AMessage {
         /**
          * get the message id
          */
-        uint32_t getAMessageID();
+        uint32_t getMessageID();
 
         /**
          * get the timestamp

@@ -32,7 +32,7 @@ bool SendMessageCommand::run()
 			std::string msg;
 			UserInputUtil::handleUserInput("Message: ", msg);
 			
-			Result result = AMessageService::getInstance().createAMessage(sender, receiver, msg);
+			Result result = MessageService::getInstance().createMessage(sender, receiver, msg);
 			cout<<result.getMessage()<<endl;
 		}
 	}

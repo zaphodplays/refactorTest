@@ -1,5 +1,5 @@
 #pragma once
-#include "AMessage.h"
+#include "Message.h"
 #include "MsgMetadata.h"
 #include "User.h"
 #include "UserService.h"
@@ -24,7 +24,7 @@ using std::set;
  * 3. sending results for the query : get all message metadata, grouped by sender, sorted by receiver, timestamp
  * 
  */
-class AMessageService {
+class MessageService {
 
     /**
      * This structure is used as the custom comparator for comparing between
@@ -45,7 +45,7 @@ class AMessageService {
         typedef set<shared_ptr<MsgMetadata> , metadata_receiver_timestamp_comparator> SET_METADATA_BY_RECEIVER_AND_TIME; 
 
         // we define this type as set of Message pointers based on custom comparator
-        typedef set<shared_ptr<AMessage> , message_sender_timestamp_comparator> SET_AMESSAGES_BY_SENDER_AND_TIME;
+        typedef set<shared_ptr<Message> , message_sender_timestamp_comparator> SET_AMESSAGES_BY_SENDER_AND_TIME;
 
         /**
          * creates a new Message and MsgMetadata object
@@ -56,7 +56,7 @@ class AMessageService {
          * @param text content of the message
          * @return Result object containing the status(success/fail) and any success/error message
          */
-        const Result& createAMessage(string senderName, string receiverName, const string text);
+        const Result& createMessage(string senderName, string receiverName, const string text);
 
         /**
          * returns a pointer to the sorted set of messages for a receiver
@@ -70,35 +70,35 @@ class AMessageService {
          * returns a map of MsgMetadata objects
          * key is  sender name
          * value is set of MsgMetadata objects sorted by custom comparator(receiver name, timestamp) 
-         * @return map<string, AMessageService::SET_METADATA_BY_RECEIVER_AND_TIME>
+         * @return map<string, MessageService::SET_METADATA_BY_RECEIVER_AND_TIME>
          */
-        map<uint32_t, AMessageService::SET_METADATA_BY_RECEIVER_AND_TIME> &getAllMessagesGroupedBySenderID();
+        map<uint32_t, MessageService::SET_METADATA_BY_RECEIVER_AND_TIME> &getAllMessagesGroupedBySenderID();
 
         /**
          * provides a single point of access to get the singleton instance of this class
          */
-        static AMessageService &getInstance()
+        static MessageService &getInstance()
         {
-            static AMessageService* instance = new AMessageService();
+            static MessageService* instance = new MessageService();
             return *instance;
         }
 
         // a static result object used to send a success status 
         static Result* MSG_SENT_SUCCESS;
 
-        virtual ~AMessageService();
+        virtual ~MessageService();
 
         /**
-         * This method can be invoked to run tests on AMessageService
+         * This method can be invoked to run tests on MessageService
          */
         void runTests();
 
     private:
         /**
-         * AMessageService constructor is private to restrict the number of instances 
+         * MessageService constructor is private to restrict the number of instances 
          * of this class to ONE
          */
-        AMessageService() { }
+        MessageService() { }
         
         /**
          * creates a test setup by creating dummy users and sending test messages
@@ -133,7 +133,7 @@ class AMessageService {
          * comparator to sort messages by sender and timestamp
          **/
         struct message_sender_timestamp_comparator {
-            bool operator() (const shared_ptr<AMessage> & lhs, const shared_ptr<AMessage> & rhs) const
+            bool operator() (const shared_ptr<Message> & lhs, const shared_ptr<Message> & rhs) const
             {
                 if(lhs->getSenderName() < rhs->getSenderName())
                     return true;
@@ -149,7 +149,7 @@ class AMessageService {
          * value : set<MsgMetadata> with custom comparator to sort MsgMetadata objects 
          * by receiverID and timestamp
          */
-        map<uint32_t, SET_METADATA_BY_RECEIVER_AND_TIME> senderAMessagesMap;
+        map<uint32_t, SET_METADATA_BY_RECEIVER_AND_TIME> senderMessagesMap;
 
 
         /**
@@ -158,7 +158,7 @@ class AMessageService {
          * value : shared_ptr<SET_AMESSAGES_BY_SENDER_AND_TIME> ,  uses 
          * a custom comparator to sort Messages by sender and timestamp.
          */
-        map<string, shared_ptr<SET_AMESSAGES_BY_SENDER_AND_TIME> > receiverAMessagesMap;
+        map<string, shared_ptr<SET_AMESSAGES_BY_SENDER_AND_TIME> > receiverMessagesMap;
         
 
 };

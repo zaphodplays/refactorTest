@@ -13,18 +13,18 @@ const string GetAllMessagesBySendersCommand::description()
 bool GetAllMessagesBySendersCommand::run()
 {
     
-    map<uint32_t, AMessageService::SET_METADATA_BY_RECEIVER_AND_TIME> msgMap = AMessageService::getInstance().getAllMessagesGroupedBySenderID();
-    map<uint32_t, AMessageService::SET_METADATA_BY_RECEIVER_AND_TIME>::iterator mitor = msgMap.begin();
+    map<uint32_t, MessageService::SET_METADATA_BY_RECEIVER_AND_TIME> msgMap = MessageService::getInstance().getAllMessagesGroupedBySenderID();
+    map<uint32_t, MessageService::SET_METADATA_BY_RECEIVER_AND_TIME>::iterator mitor = msgMap.begin();
 
     cout << endl << "===== BEGIN MESSAGES =====" << endl;
     while(mitor != msgMap.end())
     {
         uint32_t senderID = mitor->first;
-        AMessageService::SET_METADATA_BY_RECEIVER_AND_TIME sset = mitor->second;
+        MessageService::SET_METADATA_BY_RECEIVER_AND_TIME sset = mitor->second;
         int num = sset.size();
         if(num > 0)
         {
-           AMessageService::SET_METADATA_BY_RECEIVER_AND_TIME::iterator sitor = sset.begin();
+           MessageService::SET_METADATA_BY_RECEIVER_AND_TIME::iterator sitor = sset.begin();
            cout << "sender "<< senderID << "(" << num <<" messages)"<<endl;
            while(sitor != sset.end())
            {

@@ -1,7 +1,7 @@
 #pragma once
 #include "Command.h"
 #include "UserService.h"
-#include "AMessageService.h"
+#include "MessageService.h"
 
 
 /**

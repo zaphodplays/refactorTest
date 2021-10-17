@@ -1,7 +1,7 @@
 #pragma once
 #include <ctime>
 #include <string>
-#include "AMessage.h"
+#include "Message.h"
 using std::time_t;
 using std::string;
 

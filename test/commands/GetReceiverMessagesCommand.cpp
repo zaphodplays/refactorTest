@@ -21,8 +21,8 @@ bool GetReceiverMessagesCommand::run()
     if (userResult.isSuccess())
     {
         
-        shared_ptr<AMessageService::SET_AMESSAGES_BY_SENDER_AND_TIME> msgSet = AMessageService::getInstance().getMessagesForReceiver(user);
-        AMessageService::SET_AMESSAGES_BY_SENDER_AND_TIME::iterator mitor = msgSet->begin();
+        shared_ptr<MessageService::SET_AMESSAGES_BY_SENDER_AND_TIME> msgSet = MessageService::getInstance().getMessagesForReceiver(user);
+        MessageService::SET_AMESSAGES_BY_SENDER_AND_TIME::iterator mitor = msgSet->begin();
         cout << endl << "===== BEGIN MESSAGES =====" << endl;
         int num = 1;
         while(mitor != msgSet->end())
