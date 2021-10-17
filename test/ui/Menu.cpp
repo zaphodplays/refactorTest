@@ -79,7 +79,7 @@ void runTests()
 int main()
 {
     //uncomment below method to run tests
-    runTests();
+    //runTests();
     Menu menu;
     menu.execute();
 }
