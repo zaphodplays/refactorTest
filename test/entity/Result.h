@@ -9,7 +9,7 @@ using std::string;
 class Result
 {
     public:
-        Result(bool status, string msg){success = status; message = msg;}
+        Result(bool status, const string &msg){success = status; message = msg;}
 
         bool isSuccess(){return success;}
         string getMessage() {return message;}

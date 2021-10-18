@@ -2,7 +2,7 @@
 
 uint32_t User::current_id = 0;
 
-User::User(string name)
+User::User(const string &name)
 {
     this->id = ++current_id;
     this->name = name;

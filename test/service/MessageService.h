@@ -96,7 +96,7 @@ class MessageService {
     private:
         /**
          * MessageService constructor is private to restrict the number of instances 
-         * of this class to ONE
+         * of this class
          */
         MessageService() { }
         

@@ -11,7 +11,7 @@ using std::string;
 class Message {
 
     public:
-        Message(const string sender, const string receiver, const string msg);
+        Message(const string &sender, const string &receiver, const string &msg);
 
         /**
          * get sender name

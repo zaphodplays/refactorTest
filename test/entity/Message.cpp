@@ -2,7 +2,7 @@
 
 uint32_t Message::current_id = 0;
 
-Message::Message(const string sender, const string receiver, const string msg)
+Message::Message(const string &sender, const string &receiver, const string &msg)
 {
     this->id = ++current_id;
     this->sname = sender;

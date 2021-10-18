@@ -13,7 +13,7 @@ class User
     static uint32_t current_id; 
    
     public:
-        User(string name);
+        User(const string &name);
         uint32_t getUserID();
         const string& getName();
 
